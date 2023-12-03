@@ -291,4 +291,30 @@ public:
 
     }
 
-    
+    template<typename U>
+    friend bool isHasCycle(LinkedList<U>& ls);
+
+    friend std::ostream& operator<<(std::ostream& out, const LinkedList<T>& ls)
+    {
+        out << "[ ";
+        if (ls.size() > 0)
+            for (int i = 0; i < ls.size() - 1; i++)
+                out << ls[i] << ";";
+        if (ls.size() > 0)
+            out << ls.back();
+        out << " ]";
+        return out;
+    }
+};
+
+using std::cout;
+using std::cin;
+using std::endl;
+//Функция проверка циклов
+template<typename T>
+bool isHasCycle(LinkedList<T>& ls)
+{
+    if(ls.tail!=nullptr)
+        return ls.tail == ls.head;
+    return false;
+}
