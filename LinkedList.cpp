@@ -318,3 +318,62 @@ bool isHasCycle(LinkedList<T>& ls)
         return ls.tail == ls.head;
     return false;
 }
+int main()
+{
+    LinkedList<double>ls_double(1, 8.5);
+    ls_double.delByValue(8.5);
+    cout << ls_double << endl;
+    ls_double.push_head(8.666);
+    ls_double.push_tail(123.52);
+    cout << ls_double << endl;
+
+    LinkedList<int>lsi(15,80);
+    lsi.push_tail(12);
+    lsi.push_head(84);
+    lsi.push_head(8455);
+    lsi.push_head(741);
+    cout << lsi << endl;
+    lsi.pop_tail();
+    lsi.pop_head();
+    cout << lsi << endl;
+    
+    LinkedList<std::string>strl(50,"Hello World");
+    int siz = strl.size();
+    cout << "sizeof of strl: " << strl.size() << endl;
+    for (int i = 0; i < siz; i++)
+        strl.pop_head();
+    cout << strl << endl;
+
+    LinkedList<int>ls;
+    cout << ls << endl;
+
+    ls.push_tail(4);
+    
+    cout << ls << endl;
+    
+    ls.push_tail(6);
+    for (int i = 0; i < 1200000; i++)
+        ls.push_tail(i * 12 + 1);
+    cin.get();
+    ls.clear();
+    cin.get();
+    LinkedList<std::string>lstr(400,std::string("hello"));
+    cin.get();
+    lstr.clear();
+    cin.get();
+    for (int i = 0; i < 11; i++)
+        ls.push_head(12 * i + 1);
+    LinkedList<int>cpy(ls);
+    cout << cpy<<endl;
+    cpy.push_head(ls);
+    cout << cpy << endl;
+    for (int i = 0; i < cpy.size(); i++)
+    {
+        cpy.pop_tail();
+        cout << cpy << endl;
+    }
+    cout << cpy << endl;
+    cout << std::boolalpha << isHasCycle(cpy) << endl;
+    return 0;
+}
+
