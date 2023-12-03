@@ -25,3 +25,43 @@ struct Node
     }
     ~Node(){}
 };
+
+template<typename T>
+class LinkedList
+{
+private:
+    
+    Node<T>* head;
+    Node<T>* tail;
+    int _size;
+    
+    Node<T>* beforeNode(Node<T>* &key_node)
+    {
+        if (head == nullptr)
+            return nullptr;
+        
+        Node<T>* p = head;
+        
+        while (p!=nullptr && p->pNext != key_node)
+        {
+            p = p->pNext;
+        }
+        return p;
+    }
+    void deleteNode(Node<T>* &del)
+    {
+        if (del == head)
+            pop_head();
+        else
+            if (del == tail)
+                pop_tail();
+            else
+            {
+                Node<T>* bef = beforeNode(del);
+                if (bef == nullptr)
+                    return;
+                bef->pNext = del->pNext;
+                delete del;
+                _size--;
+            }
+    }
