@@ -7,48 +7,48 @@
 #include <stdexcept>
 #include <string>
 
-
 template<typename T>
+
 struct Node
 {
     T data;
     Node* pNext;
     Node()
-        :pNext{nullptr},data{T()}
+        :pNext{ nullptr }, data{ T() }
     {}
     Node(const T& _data)
-        :pNext{nullptr},data{_data}{}
+        :pNext{ nullptr }, data{ _data } {}
     Node(T&& _data)
         :pNext{ nullptr }
     {
         data = std::move(_data);
     }
-    ~Node(){}
+    ~Node() {}
 };
 
 template<typename T>
 class LinkedList
 {
 private:
-    
+
     Node<T>* head;
     Node<T>* tail;
     int _size;
-    
-    Node<T>* beforeNode(Node<T>* &key_node)
+
+    Node<T>* beforeNode(Node<T>*& key_node)
     {
         if (head == nullptr)
             return nullptr;
-        
+
         Node<T>* p = head;
-        
-        while (p!=nullptr && p->pNext != key_node)
+
+        while (p != nullptr && p->pNext != key_node)
         {
             p = p->pNext;
         }
         return p;
     }
-    void deleteNode(Node<T>* &del)
+    void deleteNode(Node<T>*& del)
     {
         if (del == head)
             pop_head();
@@ -68,9 +68,9 @@ private:
 public:
 
     LinkedList()
-        :_size{0},head{nullptr},tail{nullptr}
+        :_size{ 0 }, head{ nullptr }, tail{ nullptr }
     {}
-    
+
     LinkedList(int sz, const T& fil)
     {
         if (sz <= 0)
@@ -87,7 +87,7 @@ public:
         :LinkedList()
     {
         for (int i = 0; i < ls.size(); i++)
-             push_tail(ls[i]);
+            push_tail(ls[i]);
     }
 
     LinkedList(LinkedList<T>&& ls)
@@ -107,7 +107,6 @@ public:
     }
 
     bool empty()const { return this->head == nullptr; }
-
     void push_tail(const T& data)
     {
         if (this->head == nullptr)
@@ -128,16 +127,16 @@ public:
             this->_size++;
         }
     }
-    
+
     void push_tail(const LinkedList<T>& ls)
     {
         if (ls.empty())
             throw std::underflow_error("List is empty");
 
         for (int i = 0; i < ls.size(); i++)
-             push_tail(ls[i]);
+            push_tail(ls[i]);
     }
-    
+
     void push_head(const T& data)
     {
         if (head == nullptr)
@@ -159,7 +158,7 @@ public:
             this->_size++;
         }
     }
-    
+
     void push_head(const LinkedList<T>& ls)
     {
         if (ls.empty())
@@ -168,8 +167,9 @@ public:
         for (int i = 0; i < ls.size(); i++)
             push_head(ls[i]);
     }
-    
-    int size()const { return _size;}
+
+
+    int size()const { return _size; }
 
     void clear()
     {
@@ -184,19 +184,19 @@ public:
         this->tail = nullptr;
         this->_size = 0;
     }
-     
+
     const T& front()const
     {
-        if (this->size()<=0)
+        if (this->size() <= 0)
             std::logic_error("List is empty");
 
         return head->data;
     }
-    
+
     const T& back()const
     {
 
-        if (this->size()<=0)
+        if (this->size() <= 0)
             throw std::logic_error("List is empty");
 
         return tail->data;
@@ -208,7 +208,7 @@ public:
             throw std::out_of_range("index out of ranges");
         Node<T>* p = this->head;
         int i = 0;
-        while (i < index && p!=nullptr)
+        while (i < index && p != nullptr)
         {
             p = p->pNext;
             i++;
@@ -220,9 +220,9 @@ public:
     {
         if (index < 0 || index >= _size)
             throw std::out_of_range("index out of ranges");
-        
+
         Node<T>* p = this->head;
-        int i = 0;   
+        int i = 0;
         while (i < index && p != nullptr)
         {
             p = p->pNext;
@@ -236,7 +236,7 @@ public:
     {
         if (head == nullptr)
             throw std::underflow_error("List is empty");
-        
+
         if (tail == head)
         {
             delete tail;
@@ -244,7 +244,7 @@ public:
             head = nullptr;
             _size = 0;
         }
-        
+
         else
         {
             Node<T>* p = this->head;
@@ -256,7 +256,7 @@ public:
             _size--;
         }
     }
-    
+
     void pop_head()
     {
 
@@ -310,16 +310,30 @@ public:
 using std::cout;
 using std::cin;
 using std::endl;
-//Функция проверка циклов
+
+
 template<typename T>
+
 bool isHasCycle(LinkedList<T>& ls)
 {
-    if(ls.tail!=nullptr)
-        return ls.tail == ls.head;
+    Node<T>* p = ls.head;
+    while (p != nullptr)
+    {
+        Node<T>* cur = ls.head;
+        while (cur != nullptr && cur != p)
+        {
+            if (cur == p)
+                return true;
+            cur = cur->pNext;
+        }
+        p = p->pNext;
+    }
     return false;
 }
+
 int main()
 {
+
     LinkedList<double>ls_double(1, 8.5);
     ls_double.delByValue(8.5);
     cout << ls_double << endl;
@@ -327,7 +341,7 @@ int main()
     ls_double.push_tail(123.52);
     cout << ls_double << endl;
 
-    LinkedList<int>lsi(15,80);
+    LinkedList<int>lsi(15, 80);
     lsi.push_tail(12);
     lsi.push_head(84);
     lsi.push_head(8455);
@@ -336,8 +350,8 @@ int main()
     lsi.pop_tail();
     lsi.pop_head();
     cout << lsi << endl;
-    
-    LinkedList<std::string>strl(50,"Hello World");
+
+    LinkedList<std::string>strl(50, "Hello World");
     int siz = strl.size();
     cout << "sizeof of strl: " << strl.size() << endl;
     for (int i = 0; i < siz; i++)
@@ -348,23 +362,23 @@ int main()
     cout << ls << endl;
 
     ls.push_tail(4);
-    
+
     cout << ls << endl;
-    
+
     ls.push_tail(6);
     for (int i = 0; i < 1200000; i++)
         ls.push_tail(i * 12 + 1);
     cin.get();
     ls.clear();
     cin.get();
-    LinkedList<std::string>lstr(400,std::string("hello"));
+    LinkedList<std::string>lstr(400, std::string("hello"));
     cin.get();
     lstr.clear();
     cin.get();
     for (int i = 0; i < 11; i++)
         ls.push_head(12 * i + 1);
     LinkedList<int>cpy(ls);
-    cout << cpy<<endl;
+    cout << cpy << endl;
     cpy.push_head(ls);
     cout << cpy << endl;
     for (int i = 0; i < cpy.size(); i++)
